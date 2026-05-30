@@ -1,6 +1,10 @@
 import http from "http"
 import httpProxy from 'http-proxy'
+import dotenv from 'dotenv'
+
+dotenv.config({path: '../.env'})
 import { routes } from "./config/routes.js"
+import { authMiddleware } from "../middleware/auth.js"
 const proxy=httpProxy.createProxyServer()
 
 const server=http.createServer((req,res)=>{
@@ -10,6 +14,12 @@ const server=http.createServer((req,res)=>{
         res.writeHead(404,{"content-type":"application/json"})
         res.end(JSON.stringify({error:'Route not found'}))
         return 
+    }
+    const isAuthorized=authMiddleware(req,res,route.auth)
+    if(!isAuthorized) return 
+    if(req.user){
+        req.headers['x-user-id']=req.user.userId
+        req.headers['x-user-role']=req.user.role
     }
     proxy.web(req,res,{target:route.target})
 
