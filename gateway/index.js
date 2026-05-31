@@ -15,7 +15,7 @@ const server=http.createServer((req,res)=>{
         res.end(JSON.stringify({error:'Route not found'}))
         return 
     }
-    const isAuthorized=authMiddleware(req,res,route.auth)
+    const isAuthorized=authMiddleware(req,res,route.auth,route.roles)
     if(!isAuthorized) return 
     if(req.user){
         req.headers['x-user-id']=req.user.userId

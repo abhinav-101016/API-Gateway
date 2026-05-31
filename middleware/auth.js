@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 
-export function authMiddleware(req,res,isProtected){
+export function authMiddleware(req,res,isProtected,allowedRoles){
     if(!isProtected){
         console.log(`[AUTH] Public Route- skipping: ${req.url}`)
         return true
@@ -21,9 +21,18 @@ export function authMiddleware(req,res,isProtected){
    
     try{
         const decoded=jwt.verify(token,process.env.JWT_SECRET)
-        req.user=decoded
+       
         console.log(`[AUTH] Verified — userId: ${decoded.userId} role: ${decoded.role}`)
-        return true;
+        if(allowedRoles.length>0 &&!allowedRoles.includes(decoded.role)){
+            res.writeHead(403,{'Content-type':'application/json'})
+            res.end(JSON.stringify({error: `Access denied. Required role: ${allowedRoles.join(' or ')}`}))
+            return false
+           
+        }
+         req.user=decoded
+        console.log(`[AUTH] Role approved — ${decoded.role} accessing ${req.url}`)
+        return true
+        
     }
     catch(err){
         if(err.name==='TokenExpiredError'){
