@@ -5,9 +5,10 @@ import dotenv from 'dotenv'
 dotenv.config({path: '../.env'})
 import { routes } from "./config/routes.js"
 import { authMiddleware } from "../middleware/auth.js"
+import { rateLimiter } from "../middleware/rateLimiter.js"
 const proxy=httpProxy.createProxyServer()
 
-const server=http.createServer((req,res)=>{
+const server=http.createServer(async(req,res)=>{
     console.log(`[${req.method}] ${req.url}`)
     const route=routes.find(r=>req.url.startsWith(r.path))
     if(!route){
@@ -17,6 +18,8 @@ const server=http.createServer((req,res)=>{
     }
     const isAuthorized=authMiddleware(req,res,route.auth,route.roles)
     if(!isAuthorized) return 
+    const isAllowed=await rateLimiter(req,res,route.rateLimit);
+    if(!isAllowed) return 
     if(req.user){
         req.headers['x-user-id']=req.user.userId
         req.headers['x-user-role']=req.user.role

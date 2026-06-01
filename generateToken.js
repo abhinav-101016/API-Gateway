@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
 dotenv.config()
-console.log("SECRET =", process.env.JWT_SECRET)
+
 const adminToken=jwt.sign({
     userId:'123',role:'admin'},
     process.env.JWT_SECRET,{
