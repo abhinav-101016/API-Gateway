@@ -3,12 +3,16 @@ import httpProxy from 'http-proxy'
 import dotenv from 'dotenv'
 
 dotenv.config({path: '../.env'})
+import {v4 as uuidv4} from 'uuid'
 import { routes } from "./config/routes.js"
 import { authMiddleware } from "../middleware/auth.js"
 import { rateLimiter } from "../middleware/rateLimiter.js"
+import { loggerMiddleware } from "../middleware/logger.js"
 const proxy=httpProxy.createProxyServer()
 
 const server=http.createServer(async(req,res)=>{
+    loggerMiddleware(req,res)
+
     console.log(`[${req.method}] ${req.url}`)
     const route=routes.find(r=>req.url.startsWith(r.path))
     if(!route){
@@ -24,6 +28,9 @@ const server=http.createServer(async(req,res)=>{
         req.headers['x-user-id']=req.user.userId
         req.headers['x-user-role']=req.user.role
     }
+    req.headers['x-request-id']=uuidv4()
+    req.headers['x-forwarded-by']='api-gateway'
+    req.headers['x-forwarded-ip']=req.socket.remoteAddress
     proxy.web(req,res,{target:route.target})
 
 })

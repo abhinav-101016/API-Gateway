@@ -1,0 +1,7 @@
+[2026-06-01T15:00:46.366Z] GET /users 200 32ms | userId:guest ip:::1
+[2026-06-01T15:01:37.712Z] GET /orders 200 24ms | userId:456 ip:::1
+[2026-06-01T15:01:46.564Z] GET /orders 401 2ms | userId:guest ip:::1
+[2026-06-01T15:19:19.953Z] GET /orders 401 5ms | userId:guest ip:::1
+[2026-06-01T15:20:47.173Z] GET /orders 401 2ms | userId:guest ip:::1
+[2026-06-01T16:48:44.564Z] GET /users 200 48ms | userId:guest ip:::1
+[2026-06-01T16:53:47.948Z] GET /users 200 37ms | userId:guest ip:::1 reqId:2f1cf5cc-0697-4200-853f-edfa25a17349
