@@ -5,6 +5,7 @@ import dotenv from 'dotenv'
 dotenv.config({path: '../.env'})
 import {v4 as uuidv4} from 'uuid'
 import { routes } from "./config/routes.js"
+import { healthCheck } from "./health.js"
 import { authMiddleware } from "../middleware/auth.js"
 import { rateLimiter } from "../middleware/rateLimiter.js"
 import { loggerMiddleware } from "../middleware/logger.js"
@@ -12,6 +13,10 @@ const proxy=httpProxy.createProxyServer()
 
 const server=http.createServer(async(req,res)=>{
     loggerMiddleware(req,res)
+    if(req.url==='/health'){
+        await healthCheck(req,res)
+        return 
+    }
 
     console.log(`[${req.method}] ${req.url}`)
     const route=routes.find(r=>req.url.startsWith(r.path))

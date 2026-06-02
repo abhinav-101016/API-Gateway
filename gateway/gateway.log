@@ -5,3 +5,7 @@
 [2026-06-01T15:20:47.173Z] GET /orders 401 2ms | userId:guest ip:::1
 [2026-06-01T16:48:44.564Z] GET /users 200 48ms | userId:guest ip:::1
 [2026-06-01T16:53:47.948Z] GET /users 200 37ms | userId:guest ip:::1 reqId:2f1cf5cc-0697-4200-853f-edfa25a17349
+[2026-06-01T17:05:30.648Z] GET / 404 4ms | userId:guest ip:::1 reqId:unknown
+[2026-06-02T06:42:29.386Z] GET /health 503 23ms | userId:guest ip:::1 reqId:unknown
+[2026-06-02T06:43:15.230Z] GET /health 503 28ms | userId:guest ip:::1 reqId:unknown
+[2026-06-02T06:44:22.869Z] GET /health 200 18ms | userId:guest ip:::1 reqId:unknown
