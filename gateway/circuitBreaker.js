@@ -8,7 +8,6 @@ const circuitBreakers={
     'http://localhost:4002':{state:'CLOSED',failureCount:0,nextRetryTime:null},
     'http://localhost:4003':{state:'CLOSED',failureCount:0,nextRetryTime:null},
 }
-let proxyFailed = false;
 
 function getBreaker(target){
     return circuitBreakers[target]
@@ -48,6 +47,7 @@ function canRequest(target){
     }
 }
 export function circuitBreakerMiddleware(req,res,target){
+    let proxyFailed = false
     const decision=canRequest(target)
     if(decision==='BLOCK'){
         const breaker=getBreaker(target)
