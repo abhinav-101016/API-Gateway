@@ -9,3 +9,15 @@
 [2026-06-02T06:42:29.386Z] GET /health 503 23ms | userId:guest ip:::1 reqId:unknown
 [2026-06-02T06:43:15.230Z] GET /health 503 28ms | userId:guest ip:::1 reqId:unknown
 [2026-06-02T06:44:22.869Z] GET /health 200 18ms | userId:guest ip:::1 reqId:unknown
+[2026-06-03T13:15:25.497Z] GET /health 503 42ms | userId:guest ip:::1 reqId:unknown
+[2026-06-03T13:20:41.391Z] GET /users 200 65ms | userId:guest ip:::1 reqId:71621d32-c301-4bf1-8518-d0b0c65b39f7
+[2026-06-03T13:21:31.324Z] GET /orders 502 27ms | userId:123 ip:::1 reqId:d0db9adb-649e-4384-a83b-f6019ec296b8
+[2026-06-03T13:21:55.877Z] GET /orders 502 14ms | userId:123 ip:::1 reqId:de548b3c-39ba-46d2-8a10-b7d04987b3d8
+[2026-06-03T13:22:18.921Z] GET /orders 503 8ms | userId:123 ip:::1 reqId:c2889446-2876-47af-a9ea-4f3bbc6e1fce
+[2026-06-03T13:22:38.344Z] GET /users 200 13ms | userId:guest ip:::1 reqId:789c97c3-4fa7-40e2-a958-0cf0fdc48149
+[2026-06-03T13:22:50.777Z] GET /orders 502 14ms | userId:123 ip:::1 reqId:fcff8731-9397-487f-b5d3-c12a886fb5cc
+[2026-06-03T13:27:31.321Z] GET /orders 502 49ms | userId:123 ip:::1 reqId:de80a676-9d61-44c2-b70f-ebdb9469a87d
+[2026-06-03T13:27:39.215Z] GET /orders 502 18ms | userId:123 ip:::1 reqId:b2474420-25f2-4553-a827-8c387e6b45ca
+[2026-06-03T13:27:41.932Z] GET /orders 502 12ms | userId:123 ip:::1 reqId:e84400f8-8a48-4414-aedf-9f1383349e70
+[2026-06-03T13:27:53.965Z] GET /orders 503 7ms | userId:123 ip:::1 reqId:a0635592-bf6b-4286-a536-23ad44616e80
+[2026-06-03T13:28:11.470Z] GET /orders 401 2ms | userId:guest ip:::1 reqId:unknown

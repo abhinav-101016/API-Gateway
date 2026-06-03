@@ -9,6 +9,7 @@ import { healthCheck } from "./health.js"
 import { authMiddleware } from "../middleware/auth.js"
 import { rateLimiter } from "../middleware/rateLimiter.js"
 import { loggerMiddleware } from "../middleware/logger.js"
+import { circuitBreakerMiddleware } from "./circuitBreaker.js"
 const proxy=httpProxy.createProxyServer()
 
 const server=http.createServer(async(req,res)=>{
@@ -36,7 +37,7 @@ const server=http.createServer(async(req,res)=>{
     req.headers['x-request-id']=uuidv4()
     req.headers['x-forwarded-by']='api-gateway'
     req.headers['x-forwarded-ip']=req.socket.remoteAddress
-    proxy.web(req,res,{target:route.target})
+    circuitBreakerMiddleware(req,res,route.target)
 
 })
 server.listen(3000,()=>{
