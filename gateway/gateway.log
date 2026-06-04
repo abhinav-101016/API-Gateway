@@ -21,3 +21,15 @@
 [2026-06-03T13:27:41.932Z] GET /orders 502 12ms | userId:123 ip:::1 reqId:e84400f8-8a48-4414-aedf-9f1383349e70
 [2026-06-03T13:27:53.965Z] GET /orders 503 7ms | userId:123 ip:::1 reqId:a0635592-bf6b-4286-a536-23ad44616e80
 [2026-06-03T13:28:11.470Z] GET /orders 401 2ms | userId:guest ip:::1 reqId:unknown
+[2026-06-03T13:36:29.743Z] GET /health 503 19ms | userId:guest ip:::1 reqId:unknown
+[2026-06-04T06:15:04.249Z] GET /health 200 40ms | userId:guest ip:::1 reqId:unknown
+[2026-06-04T06:15:30.039Z] GET /users 200 61ms | userId:guest ip:::1 reqId:09ada54b-90fe-48f5-9f71-6908abde625e
+[2026-06-04T06:16:04.259Z] GET /users 200 12ms | userId:guest ip:::1 reqId:ffee6b30-6494-47d2-8dd7-e2e95011cbf0
+[2026-06-04T06:16:18.253Z] GET /users 200 11ms | userId:guest ip:::1 reqId:5ad5be07-bc79-401f-a400-aafb09b53a17
+[2026-06-04T06:16:20.075Z] GET /users 200 9ms | userId:guest ip:::1 reqId:a4ff0bb1-c0bb-4953-bfd2-09b826abd7ef
+[2026-06-04T06:16:21.355Z] GET /users 200 11ms | userId:guest ip:::1 reqId:3821a96e-5ac4-4824-b7a4-f6cbf217d92e
+[2026-06-04T06:16:22.988Z] GET /users 200 8ms | userId:guest ip:::1 reqId:2a30f406-c9b9-4ab4-a554-ec82062b6e67
+[2026-06-04T06:16:47.017Z] GET /products 502 23ms | userId:123 ip:::1 reqId:ca56e3d5-9035-4653-9f8e-fa41474a5209
+[2026-06-04T06:17:00.022Z] GET /products 502 13ms | userId:123 ip:::1 reqId:f53005c7-1858-4976-a14d-423b539dacb8
+[2026-06-04T06:17:05.234Z] GET /products 502 13ms | userId:123 ip:::1 reqId:5c90ac2f-6b49-4e6b-bbf0-489edb73f95d
+[2026-06-04T06:17:18.959Z] GET /health 503 8ms | userId:guest ip:::1 reqId:unknown

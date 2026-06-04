@@ -9,7 +9,7 @@ const circuitBreakers={
     'http://localhost:4003':{state:'CLOSED',failureCount:0,nextRetryTime:null},
 }
 
-function getBreaker(target){
+export function getBreaker(target){
     return circuitBreakers[target]
 }
 function recordSuccess(target){

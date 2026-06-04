@@ -1,7 +1,8 @@
 import Redis from "ioredis";
 import http from "http"
-import { stat } from "fs";
+
 import { uptime } from "process";
+import { getBreaker } from "./circuitBreaker.js";
 const redis=new Redis()
 
 async function checkRedis() {
@@ -64,6 +65,9 @@ function getMemory() {
     total: `${Math.round(mem.heapTotal / 1024 / 1024)}MB`
   }
 }
+function breakerStatus(target){
+    return getBreaker(target)
+}
 export async function healthCheck(req,res){
     const [redis,userService,productService,orderService]=await Promise.all([
         checkRedis(),
@@ -84,7 +88,9 @@ export async function healthCheck(req,res){
         uptime:formatUptime(process.uptime()),
         version:'1.0.0',
         dependencies,
-        memory:getMemory()
+        memory:getMemory(),
+        breakerStatus:{'user-service':breakerStatus('http://localhost:4001'),'product-service':breakerStatus('http://localhost:4002'),
+            'order-service':breakerStatus('http://localhost:4003')}
     }
     res.writeHead(statusCode,{'Content-type':'application/json'})
     res.end(JSON.stringify(report , null ,2))
