@@ -1,5 +1,4 @@
-import Server from "http-proxy";
-import { Socket } from "socket.io";
+import { Server } from "socket.io";
 let io=null
 export function initSocket(server){
     io= new Server(server,{
