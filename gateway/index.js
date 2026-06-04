@@ -10,9 +10,11 @@ import { authMiddleware } from "../middleware/auth.js"
 import { rateLimiter } from "../middleware/rateLimiter.js"
 import { loggerMiddleware } from "../middleware/logger.js"
 import { circuitBreakerMiddleware } from "./circuitBreaker.js"
-const proxy=httpProxy.createProxyServer()
+import { initSocket } from "./socket.js"
+const proxy=httpProxy.createProxyServer({ws:false})
 
 const server=http.createServer(async(req,res)=>{
+  
     loggerMiddleware(req,res)
     if(req.url==='/health'){
         await healthCheck(req,res)
@@ -40,6 +42,8 @@ const server=http.createServer(async(req,res)=>{
     circuitBreakerMiddleware(req,res,route.target)
 
 })
+initSocket(server)
+
 server.listen(3000,()=>{
     console.log("Server running on port 3000")
 })

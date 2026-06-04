@@ -1,4 +1,6 @@
 import fs from 'fs'
+import { getIO } from '../gateway/socket.js'
+
 
 export function loggerMiddleware(req,res){
     const start=Date.now()
@@ -20,10 +22,20 @@ export function loggerMiddleware(req,res){
 
     const log = `[${timeStamp}] ${method} ${url} ${status} ${duration}ms | userId:${userId} ip:${ip} reqId:${requestId}` 
     console.log(`${color}${log}${reset}`)
+    
+
 
     fs.appendFileSync('gateway.log',log+'\n')
-    
-    })
+   try{
 
+   const io=getIO();
+    io.emit('traffic',{method,url,status,duration,userId,timeStamp,requestId})
+
+     }catch(err){
+
+     }
+
+   
+ })
 
 }
