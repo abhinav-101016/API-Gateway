@@ -1,23 +1,37 @@
 import { useState, useEffect } from 'react'
-import { io } from 'socket.io-client'
-import './App.css'
+import socket from './socket'
+import TopBar from '../components/TopBar'
+import StatGrid from '../components/StatGrid'
+import LiveChart from '../components/LiveChart'
+import TopRoutes from '../components/TopRoutes'
+import RequestLog from '../components/RequestLog'
+import CircuitPanel from '../components/CircuitPanel'
 
-const socket = io('http://localhost:3000', {
-  transports: ['polling', 'websocket']
-})
+
 
 function App() {
   const [connected, setConnected] = useState(false)
   const [logs, setLogs] = useState([])
+  const [stats,setStats]=useState({
+    total: 0, errors: 0, blocked: 0, totalDuration: 0
+
+  })
+
+  const [chartData,setChartData]=useState(
+    Array(20).fill({count:0,hasError:false,isBlocked:false})
+  )
+  const [routes, setRoutes] = useState({})
+  const [circuits, setCircuits] = useState({})
+
 
   useEffect(() => {
     socket.on('connect', () => {
-      console.log('✅ Connected to gateway:', socket.id)
+      
       setConnected(true)
     })
 
     socket.on('disconnect', () => {
-      console.log('❌ Disconnected from gateway')
+     
       setConnected(false)
     })
 
@@ -26,9 +40,39 @@ function App() {
     })
 
     socket.on('traffic', (data) => {
-      console.log('Traffic event:', data)
-      setLogs(prev => [data, ...prev].slice(0, 1500))
+      
+      setLogs(prev => [data, ...prev].slice(0, 50))
+      setStats(prev=>({
+        total:prev.total+1,
+        errors:data.status>=400?prev.errors+1:prev.errors,
+        blocked:data.status===429?prev.blocked+1:prev.blocked,
+        totalDuration:prev.totalDuration+data.duration
+      }
+    
+    
+    )
+  
+  
+  )
+
+  setChartData(prev=>[...prev.slice(1),{
+    count:1,
+    hasError:data.status>=400,
+    isBlocked:data.status===429
+  }])
+  const routeName = '/' + data.url.split('/')[1]
+      setRoutes(prev => ({
+        ...prev,
+        [routeName]: (prev[routeName] || 0) + 1
+      }))
+
+      if (data.breakerStatus) setCircuits(data.breakerStatus)
+    
     })
+
+    
+
+     
 
     return () => {
       socket.off('connect')
@@ -38,16 +82,20 @@ function App() {
     }
   }, [])
 
+  const avgDuration = stats.total > 0 ? Math.round(stats.totalDuration / stats.total) : 0
+  const errorRate = stats.total > 0 ? ((stats.errors / stats.total) * 100).toFixed(1) : '0.0'
+
   return (
-    <div>
-      <h1>API Gateway Dashboard</h1>
-      <p>Status: {connected ? '🟢 Connected' : '🔴 Disconnected'}</p>
-      <div>
-        {logs.map((log, i) => (
-          <div key={i}>
-            {log.method} {log.url} {log.status} {log.duration}ms
-          </div>
-        ))}
+    <div className='min-h-screen bg-[#010409] text-[#e6edf3] font-mono p-5'>
+      
+      <div >
+        <TopBar connected={connected}/>
+        <StatGrid total={stats.total} errorRate={errorRate} blocked={stats.blocked} avgDuration={avgDuration} />
+        <LiveChart data={chartData}/>
+        <TopRoutes routes={routes}/>
+        <RequestLog logs={logs}/>
+         <CircuitPanel circuits={circuits}/>
+       
       </div>
     </div>
   )
