@@ -25,6 +25,34 @@ function App() {
 
 
   useEffect(() => {
+
+  fetch('http://localhost:3000/metrics').then(
+    r=>r.json()).then(historicalLogs=>{
+      if(!historicalLogs.length){
+        return
+      }
+      setLogs(historicalLogs.slice(0,50))
+      let total=0,errors=0,
+      blocked=0,totalDuration=0
+      const routeCounts={}
+      historicalLogs.forEach(log => {
+        total++
+        if(log.status>=400) errors++
+        if(log.status===429) blocked++
+        totalDuration+=log.duration
+
+        const route='/'+log.url.split('/')[1]
+        routeCounts[route]=(routeCounts[route]||0)+1
+
+        
+      })
+      setStats({total,errors,blocked,totalDuration})
+      setRoutes(routeCounts)
+
+    }).catch(err=>console.log('metrics fetch failed:',err.message))
+
+
+
     socket.on('connect', () => {
       
       setConnected(true)

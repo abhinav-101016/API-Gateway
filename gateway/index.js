@@ -15,6 +15,8 @@ import { initSocket } from "./socket.js"
 import { connectDB } from './db.js'
 import { getRoutes,loadRoutes,watchRoutes } from "./config/routeManager.js"
 import Route from "./models/Route.js"
+import RequestLogs from "./models/RequestLogs.js"
+import { timeStamp } from "console"
 
 const proxy=httpProxy.createProxyServer({ws:false})
 
@@ -24,6 +26,17 @@ const server=http.createServer(async(req,res)=>{
     if(req.url==='/health'){
         await healthCheck(req,res)
         return 
+    }
+
+    if(req.url==='/metrics'){
+        const logs=await RequestLogs.find().sort({timestamp:-1}).
+        limit(1000)
+        res.writeHead(200,{
+            'content-type':'apllication/json',
+            'access-control-allow-origin':'*'
+        })
+        res.end(JSON.stringify(logs))
+        return
     }
 
     console.log(`[${req.method}] ${req.url}`)

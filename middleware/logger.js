@@ -1,12 +1,13 @@
 import fs from 'fs'
 import { getIO } from '../gateway/socket.js'
 import { getBreaker } from '../gateway/circuitBreaker.js'
+import RequestLogs from '../gateway/models/RequestLogs.js'
 
-export function loggerMiddleware(req, res) {
+export async function loggerMiddleware(req, res) {
   const start = Date.now()
   const ip = req.socket.remoteAddress
 
-  res.on('finish', () => {
+  res.on('finish', async() => {
     const duration = Date.now() - start
     const status = res.statusCode
     const userId = req.user ? req.user.userId : 'guest'
@@ -28,6 +29,20 @@ export function loggerMiddleware(req, res) {
       'user-service':    getBreaker('http://localhost:4001'),
       'product-service': getBreaker('http://localhost:4002'),
       'order-service':   getBreaker('http://localhost:4003')
+    }
+    try{
+      await RequestLogs.create({
+        method:req.method,
+        url:req.url,
+        status,
+        duration,userId,
+        ip,
+        requestId,timeStamp:new Date()
+      })
+
+    }catch(err){
+      console.error('[LOGGER] Failed to save log:', err.message)
+
     }
 
     try {
