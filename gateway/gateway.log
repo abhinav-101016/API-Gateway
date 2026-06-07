@@ -86,3 +86,8 @@
 [2026-06-05T07:34:24.339Z] PATCH /orders 200 13ms | userId:123 ip:::1 reqId:454031e7-e6eb-4eee-b2d4-b784eac1d786
 [2026-06-05T07:34:29.648Z] POST /orders 200 15ms | userId:123 ip:::1 reqId:dba95be9-b8d5-4eab-927c-39a5254e463e
 [2026-06-05T07:34:34.806Z] HEAD /orders 200 10ms | userId:123 ip:::1 reqId:e395d428-3772-4c02-a4f8-9a0e8562a6ce
+[2026-06-07T09:10:40.993Z] HEAD /orders 401 84ms | userId:guest ip:::1 reqId:unknown
+[2026-06-07T09:10:52.720Z] POST /orders 401 5ms | userId:guest ip:::1 reqId:unknown
+[2026-06-07T09:11:03.223Z] POST /orders 200 82ms | userId:123 ip:::1 reqId:faf52a07-a56b-48a3-9103-ad913190b8de
+[2026-06-07T09:11:43.398Z] POST /products 404 2ms | userId:guest ip:::1 reqId:unknown
+[2026-06-07T09:12:02.034Z] POST /products 200 28ms | userId:123 ip:::1 reqId:67438b67-164e-4d73-9b75-84aa3fe0dd3d

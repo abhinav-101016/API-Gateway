@@ -11,6 +11,11 @@ import { rateLimiter } from "../middleware/rateLimiter.js"
 import { loggerMiddleware } from "../middleware/logger.js"
 import { circuitBreakerMiddleware } from "./circuitBreaker.js"
 import { initSocket } from "./socket.js"
+
+import { connectDB } from './db.js'
+import { getRoutes,loadRoutes,watchRoutes } from "./config/routeManager.js"
+import Route from "./models/Route.js"
+
 const proxy=httpProxy.createProxyServer({ws:false})
 
 const server=http.createServer(async(req,res)=>{
@@ -22,7 +27,8 @@ const server=http.createServer(async(req,res)=>{
     }
 
     console.log(`[${req.method}] ${req.url}`)
-    const route=routes.find(r=>req.url.startsWith(r.path))
+   const routes=getRoutes()
+   const route=routes.find(r=>req.url.startsWith(r.path))
     if(!route){
         res.writeHead(404,{"content-type":"application/json"})
         res.end(JSON.stringify({error:'Route not found'}))
@@ -44,6 +50,14 @@ const server=http.createServer(async(req,res)=>{
 })
 initSocket(server)
 
-server.listen(3000,()=>{
+async function start() {
+    await connectDB()
+    await loadRoutes()
+    await watchRoutes()
+    server.listen(3000,()=>{
     console.log("Server running on port 3000")
 })
+    
+}
+start()
+
