@@ -1,6 +1,6 @@
 import { Redis } from 'ioredis'
 
-const redis=new Redis()
+const redis=new Redis("redis:6379")
 
 export async function rateLimiter(req,res,rateLimit) {
     const LIMIT=rateLimit.limit;
