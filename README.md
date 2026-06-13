@@ -54,3 +54,58 @@ Built this to deeply understand what happens *under the hood* of tools like **Ko
 
 ##  File Structure
 
+```
+api-gateway/
+├── gateway/
+│   ├── index.js                  
+│   ├── socket.js 
+│   ├── health.js
+│   ├── db.js
+│   ├── circuitBreaker.js
+│   ├── scripts/
+│   │   └── seedRoutes.js
+│   ├── models/
+│   │   └── RequestLogs.js
+│   │   └── Route.js
+│   ├── config/  
+│   │   └── routeManager.js  
+│   │     
+├── middleware/
+│   ├── auth.js                  
+│   ├── logger.js 
+│   ├── rateLimiter.js
+│   |
+│
+├── services/
+│   ├── order/
+│   │   └── index.js
+│   │   └── Dockerfile              
+│   ├── product/
+│   │   └── index.js 
+│   │   └── Dockerfile             
+│   └── user/
+│   |    └── index.js
+│   │    └── Dockerfile              
+│
+├── dashboard/                    
+│   ├── src/
+│   │   ├── App.jsx
+│   │   └── components/
+│   │       ├── CircuitPanel.jsx
+│   │       ├── LiveChart.jsx
+│   │       └── RequestLog.jsx
+│   │       └── StatGrid.jsx
+│   │       └── TopBar.jsx
+│   │       └── TopRoutes.jsx
+│   └── Dockerfile
+│
+├── gateway/Dockerfile
+├── docker-compose.yml
+├── .env.example
+└── README.md
+```
+ 
+---
+
+
+ 
