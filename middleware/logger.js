@@ -26,9 +26,9 @@ export async function loggerMiddleware(req, res) {
     fs.appendFileSync('gateway.log', log + '\n')
 
     const breakerStatus = {
-      'user-service':    getBreaker('http://localhost:4001'),
-      'product-service': getBreaker('http://localhost:4002'),
-      'order-service':   getBreaker('http://localhost:4003')
+      'user-service':    getBreaker('http://user:4001'),
+      'product-service': getBreaker('http://product:4002'),
+      'order-service':   getBreaker('http://order:4003')
     }
     try{
       await RequestLogs.create({

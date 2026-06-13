@@ -4,7 +4,7 @@ import dotenv from 'dotenv'
 
 dotenv.config({path: '../.env'})
 import {v4 as uuidv4} from 'uuid'
-import { routes } from "./config/routes.js"
+
 import { healthCheck } from "./health.js"
 import { authMiddleware } from "../middleware/auth.js"
 import { rateLimiter } from "../middleware/rateLimiter.js"

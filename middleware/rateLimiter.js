@@ -1,6 +1,9 @@
 import { Redis } from 'ioredis'
-
-const redis=new Redis("redis:6379")
+console.log('[REDIS] Connecting to', process.env.REDIS_HOST, process.env.REDIS_PORT)
+const redis=new Redis({
+    host: process.env.REDIS_HOST || 'localhost',
+    port: process.env.REDIS_PORT || 6379,
+})
 
 export async function rateLimiter(req,res,rateLimit) {
     const LIMIT=rateLimit.limit;

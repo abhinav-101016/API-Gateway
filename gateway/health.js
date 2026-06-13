@@ -3,7 +3,10 @@ import http from "http"
 
 import { uptime } from "process";
 import { getBreaker } from "./circuitBreaker.js";
-const redis=new Redis()
+const redis=new Redis({
+    host: process.env.REDIS_HOST || 'localhost',
+    port: process.env.REDIS_PORT || 6379,
+})
 
 async function checkRedis() {
     const start=Date.now()
@@ -23,10 +26,10 @@ async function checkRedis() {
 
     
 }
-async function checkService(name,port) {
+async function checkService(name,servicename,port) {
     return new Promise((resolve)=>{
         const start=Date.now()
-        const req=http.get(`http://localhost:${port}`,(res)=>{
+        const req=http.get(`http://${servicename}:${port}`,(res)=>{
             resolve({
                 name,
                 status:'healthy',
@@ -71,9 +74,9 @@ function breakerStatus(target){
 export async function healthCheck(req,res){
     const [redis,userService,productService,orderService]=await Promise.all([
         checkRedis(),
-    checkService('user-service', 4001),
-    checkService('product-service', 4002),
-    checkService('order-service', 4003),
+    checkService('user-service','user', 4001),
+    checkService('product-service','product', 4002),
+    checkService('order-service','order', 4003),
     ])
     const dependencies={
         redis,userService,productService,orderService
@@ -89,8 +92,8 @@ export async function healthCheck(req,res){
         version:'1.0.0',
         dependencies,
         memory:getMemory(),
-        breakerStatus:{'user-service':breakerStatus('http://localhost:4001'),'product-service':breakerStatus('http://localhost:4002'),
-            'order-service':breakerStatus('http://localhost:4003')}
+        breakerStatus:{'user-service':breakerStatus('http://user:4001'),'product-service':breakerStatus('http://product:4002'),
+            'order-service':breakerStatus('http://order:4003')}
     }
     res.writeHead(statusCode,{'Content-type':'application/json'})
     res.end(JSON.stringify(report , null ,2))

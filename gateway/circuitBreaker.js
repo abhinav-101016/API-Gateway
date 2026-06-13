@@ -4,12 +4,15 @@ const proxy=httpProxy.createProxyServer()
 const FAILURE_THRESHOLD=3;
 const RETRY_TIMEOUT=30000
 const circuitBreakers={
-    'http://localhost:4001':{state:'CLOSED',failureCount:0,nextRetryTime:null},
-    'http://localhost:4002':{state:'CLOSED',failureCount:0,nextRetryTime:null},
-    'http://localhost:4003':{state:'CLOSED',failureCount:0,nextRetryTime:null},
+    'http://user:4001':{state:'CLOSED',failureCount:0,nextRetryTime:null},
+    'http://product:4002':{state:'CLOSED',failureCount:0,nextRetryTime:null},
+    'http://order:4003':{state:'CLOSED',failureCount:0,nextRetryTime:null},
 }
 
 export function getBreaker(target){
+    if(!circuitBreakers[target]){
+        circuitBreakers[target]={state:'CLOSED',failureCount:0,nextRetryTime:null}
+    }
     return circuitBreakers[target]
 }
 function recordSuccess(target){

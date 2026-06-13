@@ -150,3 +150,5 @@
 [2026-06-10T18:49:25.473Z] GET /users 200 11ms | userId:123 ip:::1 reqId:fe2b5a4e-e088-4830-8308-2948fca5ad27
 [2026-06-10T18:49:26.820Z] GET /users 429 7ms | userId:123 ip:::1 reqId:unknown
 [2026-06-10T18:49:27.967Z] GET /users 429 4ms | userId:123 ip:::1 reqId:unknown
+[2026-06-12T18:23:19.420Z] GET /metrics 200 147ms | userId:guest ip:::1 reqId:unknown
+[2026-06-12T18:23:19.566Z] GET /metrics 200 131ms | userId:guest ip:::1 reqId:unknown
