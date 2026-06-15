@@ -215,6 +215,18 @@ curl http://localhost:3000/product
 
 ---
 
+## Deployment
+
+The API Gateway is deployed on **Railway** with Redis and MongoDB Atlas.
+
+- **Gateway (Live)** — https://api-gateway-production-9380.up.railway.app
+- **Full Stack** — Run locally via Docker Compose
+
+> The dashboard and microservices run locally via Docker Compose.  
+> The gateway is deployed live as proof of cloud deployment capability.
+
+---
+
 ##  What I Learned
 
 Before this project, I knew what these concepts were called. After building
