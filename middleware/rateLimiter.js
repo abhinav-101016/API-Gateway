@@ -3,6 +3,7 @@ console.log('[REDIS] Connecting to', process.env.REDIS_HOST, process.env.REDIS_P
 const redis=new Redis({
     host: process.env.REDIS_HOST || 'localhost',
     port: process.env.REDIS_PORT || 6379,
+    password: process.env.REDISPASSWORD || undefined,
 })
 
 export async function rateLimiter(req,res,rateLimit) {
