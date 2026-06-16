@@ -2,62 +2,43 @@ version: '3.9'
 services:
 
   dashboard:
-     build: 
-      context: ./dashboard
-      dockerfile: Dockerfile
-
-     ports:
+    image: abhinav1002/api-gateway-dashboard:latest
+    ports:
       - "5173:5173"
-     depends_on:
+    depends_on:
       - gateway
 
   gateway:
-     build:
-      context: .
-      dockerfile: Dockerfile
-     env_file:
+    image: abhinav1002/api-gateway:latest
+    env_file:
       - .env
-     environment:
+    environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
-     ports:
+    ports:
       - "3000:3000"
-     depends_on:
+    depends_on:
       - user
       - product
       - order
       - redis
-      
-      
+
   user:
-     build:
-      context: .
-      dockerfile: services/user/Dockerfile
-     ports:
-       - "4001:4001"
+    image: abhinav1002/api-gateway-user:latest
+    ports:
+      - "4001:4001"
+
   product:
-     build: 
-      context: .
-      dockerfile: services/product/Dockerfile  
-     ports:
-        - "4002:4002"
+    image: abhinav1002/api-gateway-product:latest
+    ports:
+      - "4002:4002"
 
   order:
-     build:     
-      context: .
-      dockerfile: services/order/Dockerfile   
-     ports:
-        - "4003:4003" 
+    image: abhinav1002/api-gateway-order:latest
+    ports:
+      - "4003:4003"
 
   redis:
-     image: redis:latest
-     ports:
-        - "6379:6379"
-  
-
-
-
-
-
-
-
+    image: redis:latest
+    ports:
+      - "6379:6379"

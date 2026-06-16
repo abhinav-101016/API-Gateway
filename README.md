@@ -190,6 +190,28 @@ JWT_SECRET=your_super_secret_key
  
 ---
 
+## 🐳 Docker Hub
+
+All images published on Docker Hub.
+
+### Run Without Cloning
+
+# 1. Download docker-compose.yml from this repo
+# 2. Create .env file (see .env.example)
+# 3. Run:
+docker-compose pull
+docker-compose up
+
+| Image | Link |
+|---|---|
+| Gateway | [abhinav1002/api-gateway](https://hub.docker.com/r/abhinav1002/api-gateway) |
+| Dashboard | [abhinav1002/api-gateway-dashboard](https://hub.docker.com/r/abhinav1002/api-gateway-dashboard) |
+| User Service | [abhinav1002/api-gateway-user](https://hub.docker.com/r/abhinav1002/api-gateway-user) |
+| Product Service | [abhinav1002/api-gateway-product](https://hub.docker.com/r/abhinav1002/api-gateway-product) |
+| Order Service | [abhinav1002/api-gateway-order](https://hub.docker.com/r/abhinav1002/api-gateway-order) |
+
+---
+
 ##  Testing the Gateway
 
 Once everything is running, open a new terminal and try these:
